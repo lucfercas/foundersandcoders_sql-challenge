@@ -36,13 +36,18 @@ function listStudentsWithLocation() {
   return select_students_with_location.all();
 }
 
-// const select_students_with_projects = db.prepare(/*sql*/ `
-//   -- [4]
-// `);
+const select_students_with_projects = db.prepare(/*sql*/ `
+  -- [4]
+  SELECT projects.name, students.username 
+  FROM projects
+  INNER JOIN students_projects ON projects.id = students_projects.project_id
+  INNER JOIN students ON students.username = students_projects.student_username
 
-// function listStudentsWithProjects() {
-//   return select_students_with_projects.all();
-// }
+`);
+
+function listStudentsWithProjects() {
+  return select_students_with_projects.all();
+}
 
 // const select_students_with_projects_in_finsbo = db.prepare(/*sql*/ `
 //   -- [5]
@@ -56,6 +61,6 @@ module.exports = {
   listCohortsInFinsbo,
   listStudentsInFinsbo,
   listStudentsWithLocation,
-  // listStudentsWithProjects,
+  listStudentsWithProjects,
   // listStudentsWithProjectsInFinsbo,
 };
